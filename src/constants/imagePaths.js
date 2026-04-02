@@ -24,6 +24,7 @@ import thunderstormsNight     from "../assets/images/weather_icons/thunderstorms
 import thunderstormsRain      from "../assets/images/weather_icons/thunderstorms-rain.svg";
 import thunderstormsDayRain   from "../assets/images/weather_icons/thunderstorms-day-rain.svg";
 import thunderstormsNightRain from "../assets/images/weather_icons/thunderstorms-night-rain.svg";
+import umbrella from "../assets/images/weather_icons/umbrella.svg";
 
 export const weatherIcons = {
   "clear-day": {
@@ -129,5 +130,9 @@ export const weatherIcons = {
   "thunderstorms-night-rain": {
     alt: "thunderstorm with rain",
     src: thunderstormsNightRain,
+  },
+  "umbrella": {
+    alt: "precipitation probability",
+    src: umbrella,
   },
 };
