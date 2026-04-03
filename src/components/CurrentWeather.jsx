@@ -22,7 +22,7 @@ function CurrentWeather({ weather, weatherCode }) {
               </div>
             </div>
           </div>
-          <img src={weatherCode?.image} alt={weatherCode?.description} className="aspect-square w-60"/>
+          <img src={weatherCode?.image} alt={weatherCode?.description} className="aspect-square w-60 bg-white"/>
         </div>
       </section>
     </>
