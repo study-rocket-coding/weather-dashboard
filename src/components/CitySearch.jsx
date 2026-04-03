@@ -51,18 +51,20 @@ function CitySearch({ onSearch }) {
   }
 
   return (
-    <div className="relative">
-      <div className="relative w-full md:max-w-sm group">
-        <svg
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none group-focus-within:text-sky-700"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+    <div className="relative group/search">
+      <div className="relative w-full group">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none transition-colors group-focus-within:text-sky-500 text-slate-400">
+          <svg
+            className="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
 
         <input
           type="search"
@@ -75,31 +77,37 @@ function CitySearch({ onSearch }) {
             setShowHint(true);
             setError(''); // 重新獲得焦點時清空錯誤訊息
           }}
-          onBlur={() => setShowHint(false)}  // 失去焦點時隱藏提示
-          placeholder="Search city"
-          className="w-full pl-11 pr-4 py-3 border border-sky-800 rounded-full hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-700"
+          // 使用 setTimeout 延遲 onBlur，避免點擊結果前選單就消失
+          onBlur={() => setTimeout(() => setShowHint(false), 200)}  
+          placeholder="Search city..."
+          className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm transition-all focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 placeholder:text-slate-400 font-medium"
         />
       </div>
 
       {/* 有焦點且輸入少於 2 個字時顯示提示 */}
-      {showHint && query.length < 2 && (
-        <p className="absolute top-full pl-11 mt-2 text-sm text-slate-500 px-2">Enter at least 2 characters</p>
+      {showHint && query.length > 0 && query.length < 2 && (
+        <div className="absolute top-full left-0 right-0 mt-2 p-3 bg-white border border-slate-100 rounded-xl shadow-xl z-20 animate-in fade-in slide-in-from-top-2">
+          <p className="text-base font-bold text-slate-400">Enter at least 2 characters</p>
+        </div>
       )}
 
       {/* 錯誤訊息和下拉選單互斥，不會同時出現 */}
       {error && (
-        <p className="absolute top-full pl-11 mt-2 text-sm text-red-700 font-semibold px-2">{error}</p>
+        <div className="absolute top-full left-0 right-0 mt-2 p-3 bg-red-50 border border-red-100 rounded-xl shadow-xl z-20 animate-in fade-in slide-in-from-top-2">
+          <p className="text-base text-red-600 font-bold">{error}</p>
+        </div>
       )}
 
       {results.length > 0 && (
-        <ul className="absolute top-full mt-2 w-full bg-white border border-sky-800 rounded-xl shadow-lg z-10">
+        <ul className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-2xl z-30 overflow-hidden divide-y divide-slate-50 animate-in fade-in slide-in-from-top-2">
           {results.map((result) => (
             <li
               key={result.id}
               onClick={() => handleSelect(result)}
-              className="px-4 py-2 hover:underline hover:underline-offset-2 cursor-pointer"
+              className="px-5 py-4 hover:bg-slate-50 cursor-pointer transition-colors flex flex-col gap-0.5"
             >
-              {result.name}, {result.country}
+              <span className="text-lg font-bold text-slate-700">{result.name}</span>
+              <span className="text-base text-slate-400 font-medium">{result.country} {result.admin1 ? `· ${result.admin1}` : ''}</span>
             </li>
           ))}
         </ul>
