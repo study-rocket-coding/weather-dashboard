@@ -1,0 +1,60 @@
+# Workflow 名稱（顯示在 GitHub Actions 頁面）
+name: Deploy Preparing to GitHub Pages
+
+# 觸發條件
+on:
+  push:
+    branches:
+      - preparing # 當 preparing 分支有 push 時觸發
+
+# 權限設定（GitHub Pages 必須設定）
+permissions:
+  contents: read # 允許 workflow 讀取 repo 內容
+  pages: write # 允許 workflow 寫入 Pages
+  id-token: write # 允許產生 OIDC token（驗證用）
+
+# 工作任務
+jobs:
+  build-and-deploy: # 任務名稱
+    runs-on: ubuntu-latest # 使用 Ubuntu 環境執行
+
+    # 指定 deployment environment（讓 GitHub Deployments UI 顯示 github-pages）
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 把程式碼抓下來
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 安裝 Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 指定 Node 版本
+
+      # 安裝依賴套件
+      - name: Install dependencies
+        run: npm install
+
+      # 建置專案
+      - name: Build project
+        run: npm run build # 會產生 dist 資料夾
+        env:
+          VITE_BASE_URL: /weather-dashboard/
+
+      # 設定 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 上傳 build 結果
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist # Vite build 產生的資料夾
+
+      # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
