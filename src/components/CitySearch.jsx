@@ -4,6 +4,7 @@ function CitySearch({ onSearch }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [error, setError] = useState(''); // 存放錯誤訊息
+  const [showHint, setShowHint] = useState(false); // 控制提示顯示
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -45,6 +46,7 @@ function CitySearch({ onSearch }) {
     });
     setResults([]); // 選完後清空下拉選單
     setError('');   // 選完後清空錯誤訊息
+    setShowHint(false); // 選完後隱藏提示
     setQuery(result.name); // 把選到的城市名稱填回搜尋框
   }
 
@@ -65,11 +67,24 @@ function CitySearch({ onSearch }) {
         <input
           type="search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setError(''); // 輸入改變時清空錯誤訊息
+          }}
+          onFocus={() => {
+            setShowHint(true);
+            setError(''); // 重新獲得焦點時清空錯誤訊息
+          }}
+          onBlur={() => setShowHint(false)}  // 失去焦點時隱藏提示
           placeholder="Search city"
           className="w-full pl-11 pr-4 py-3 border border-sky-800 rounded-full hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-700"
         />
       </div>
+
+      {/* 有焦點且輸入少於 2 個字時顯示提示 */}
+      {showHint && query.length < 2 && (
+        <p className="absolute top-full pl-11 mt-2 text-sm text-slate-500 px-2">Enter at least 2 characters</p>
+      )}
 
       {/* 錯誤訊息和下拉選單互斥，不會同時出現 */}
       {error && (
