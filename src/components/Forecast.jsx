@@ -45,7 +45,8 @@ function Forecast({ forecasts }) {
                   <img 
                     src={day.weatherCode?.image} 
                     alt={day.weatherCode?.description} 
-                    className="w-20 h-20 md:w-24 md:h-24 drop-shadow-md"
+                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                    className="w-20 h-20 md:w-24 md:h-24 drop-shadow-md bg-transparent will-change-transform block"
                   />
                   <span className="hidden lg:block text-slate-500 font-medium text-lg">{day.weatherCode?.description}</span>
                 </div>
