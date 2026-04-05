@@ -31,7 +31,7 @@ function CurrentWeather({ weather, weatherCode }) {
             2. 無障礙支援：螢幕閱讀器會將 <dt> 與 <dd> 視為一組關聯資料
             3. 結構清晰：有助於機器與開發者理解內容語意
           */}
-          <dl className="grid grid-cols-1 min-[426px]:grid-cols-2 gap-4">
+          <dl className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-1">
               <dt className="text-base font-bold text-slate-400">Humidity</dt>
               <dd className="text-2xl font-bold text-slate-800 tabular-nums">{weather.current.relative_humidity_2m}%</dd>
@@ -45,14 +45,17 @@ function CurrentWeather({ weather, weatherCode }) {
           </dl>
         </div>
 
-        {/* 天氣圖示區域，包含裝飾背景與動畫 */}
         <div className="relative group">
-          <div className="absolute -inset-4 bg-sky-100 rounded-full scale-75 group-hover:scale-100 transition-transform duration-700 blur-2xl opacity-50 -z-10"></div>
+          {/* 使用較大範圍的模糊光暈作為視覺緩衝 */}
+          <div className="absolute -inset-4 bg-sky-50 rounded-full scale-75 group-hover:scale-100 transition-transform duration-700 blur-3xl opacity-40 -z-10"></div>
+          
+          {/* translate-z-0 backface-hidden：將圖示移至獨立 GPU 層，防止動畫影響周圍元素的渲染 */}
           <img 
             src={weatherCode?.image} 
             alt={weatherCode?.description} 
-            className="w-48 md:w-64 aspect-square drop-shadow-2xl animate-in fade-in zoom-in duration-1000"
+            className="w-48 md:w-64 aspect-square drop-shadow-xl animate-in fade-in duration-500 bg-transparent will-change-transform block translate-z-0 backface-hidden"
           />
+          
           <p className="text-center mt-4 text-xl font-bold text-slate-700">{weatherCode?.description}</p>
         </div>
       </div>
