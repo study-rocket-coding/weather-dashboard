@@ -1,28 +1,28 @@
-import clearDay               from "../assets/images/weather_icons/clear-day.svg";
-import clearNight             from "../assets/images/weather_icons/clear-night.svg";
-import partlyCloudyDay        from "../assets/images/weather_icons/partly-cloudy-day.svg";
-import partlyCloudyNight      from "../assets/images/weather_icons/partly-cloudy-night.svg";
-import overcastDay            from "../assets/images/weather_icons/overcast-day.svg";
-import overcastNight          from "../assets/images/weather_icons/overcast-night.svg";
-import fogDay                 from "../assets/images/weather_icons/fog-day.svg";
-import fogNight               from "../assets/images/weather_icons/fog-night.svg";
-import drizzle                from "../assets/images/weather_icons/drizzle.svg";
+import clearDay from "../assets/images/weather_icons/clear-day.svg";
+import clearNight from "../assets/images/weather_icons/clear-night.svg";
+import partlyCloudyDay from "../assets/images/weather_icons/partly-cloudy-day.svg";
+import partlyCloudyNight from "../assets/images/weather_icons/partly-cloudy-night.svg";
+import overcastDay from "../assets/images/weather_icons/overcast-day.svg";
+import overcastNight from "../assets/images/weather_icons/overcast-night.svg";
+import fogDay from "../assets/images/weather_icons/fog-day.svg";
+import fogNight from "../assets/images/weather_icons/fog-night.svg";
+import drizzle from "../assets/images/weather_icons/drizzle.svg";
 import partlyCloudyDayDrizzle from "../assets/images/weather_icons/partly-cloudy-day-drizzle.svg";
 import partlyCloudyNightDrizzle from "../assets/images/weather_icons/partly-cloudy-night-drizzle.svg";
-import sleet                  from "../assets/images/weather_icons/sleet.svg";
-import partlyCloudyDaySleet   from "../assets/images/weather_icons/partly-cloudy-day-sleet.svg";
+import sleet from "../assets/images/weather_icons/sleet.svg";
+import partlyCloudyDaySleet from "../assets/images/weather_icons/partly-cloudy-day-sleet.svg";
 import partlyCloudyNightSleet from "../assets/images/weather_icons/partly-cloudy-night-sleet.svg";
-import rain                   from "../assets/images/weather_icons/rain.svg";
-import partlyCloudyDayRain    from "../assets/images/weather_icons/partly-cloudy-day-rain.svg";
-import partlyCloudyNightRain  from "../assets/images/weather_icons/partly-cloudy-night-rain.svg";
-import snow                   from "../assets/images/weather_icons/snow.svg";
-import partlyCloudyDaySnow    from "../assets/images/weather_icons/partly-cloudy-day-snow.svg";
-import partlyCloudyNightSnow  from "../assets/images/weather_icons/partly-cloudy-night-snow.svg";
-import hail                   from "../assets/images/weather_icons/hail.svg";
-import thunderstormsDay       from "../assets/images/weather_icons/thunderstorms-day.svg";
-import thunderstormsNight     from "../assets/images/weather_icons/thunderstorms-night.svg";
-import thunderstormsRain      from "../assets/images/weather_icons/thunderstorms-rain.svg";
-import thunderstormsDayRain   from "../assets/images/weather_icons/thunderstorms-day-rain.svg";
+import rain from "../assets/images/weather_icons/rain.svg";
+import partlyCloudyDayRain from "../assets/images/weather_icons/partly-cloudy-day-rain.svg";
+import partlyCloudyNightRain from "../assets/images/weather_icons/partly-cloudy-night-rain.svg";
+import snow from "../assets/images/weather_icons/snow.svg";
+import partlyCloudyDaySnow from "../assets/images/weather_icons/partly-cloudy-day-snow.svg";
+import partlyCloudyNightSnow from "../assets/images/weather_icons/partly-cloudy-night-snow.svg";
+import hail from "../assets/images/weather_icons/hail.svg";
+import thunderstormsDay from "../assets/images/weather_icons/thunderstorms-day.svg";
+import thunderstormsNight from "../assets/images/weather_icons/thunderstorms-night.svg";
+import thunderstormsRain from "../assets/images/weather_icons/thunderstorms-rain.svg";
+import thunderstormsDayRain from "../assets/images/weather_icons/thunderstorms-day-rain.svg";
 import thunderstormsNightRain from "../assets/images/weather_icons/thunderstorms-night-rain.svg";
 import umbrella from "../assets/images/weather_icons/umbrella.svg";
 
@@ -59,7 +59,7 @@ export const weatherIcons = {
     alt: "fog",
     src: fogNight,
   },
-  "drizzle": {
+  drizzle: {
     alt: "drizzle",
     src: drizzle,
   },
@@ -71,7 +71,7 @@ export const weatherIcons = {
     alt: "drizzle",
     src: partlyCloudyNightDrizzle,
   },
-  "sleet": {
+  sleet: {
     alt: "sleet",
     src: sleet,
   },
@@ -83,7 +83,7 @@ export const weatherIcons = {
     alt: "sleet",
     src: partlyCloudyNightSleet,
   },
-  "rain": {
+  rain: {
     alt: "rain",
     src: rain,
   },
@@ -95,7 +95,7 @@ export const weatherIcons = {
     alt: "rain",
     src: partlyCloudyNightRain,
   },
-  "snow": {
+  snow: {
     alt: "snow",
     src: snow,
   },
@@ -107,7 +107,7 @@ export const weatherIcons = {
     alt: "snow",
     src: partlyCloudyNightSnow,
   },
-  "hail": {
+  hail: {
     alt: "hail",
     src: hail,
   },
@@ -131,7 +131,7 @@ export const weatherIcons = {
     alt: "thunderstorm with rain",
     src: thunderstormsNightRain,
   },
-  "umbrella": {
+  umbrella: {
     alt: "precipitation probability",
     src: umbrella,
   },

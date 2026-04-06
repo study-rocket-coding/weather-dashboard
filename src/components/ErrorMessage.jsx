@@ -4,11 +4,13 @@ function ErrorMessage({ message, onRetry }) {
       <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
         !
       </div>
-      <h3 className="text-xl font-bold text-red-900">Oops! Something went wrong</h3>
+      <h3 className="text-xl font-bold text-red-900">
+        Oops! Something went wrong
+      </h3>
       <p className="text-red-600 font-medium">{message}</p>
       {onRetry && (
-        <button 
-          onClick={onRetry} 
+        <button
+          onClick={onRetry}
           className="px-8 py-3 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 transition-all hover:shadow-lg active:scale-95"
         >
           Try Again
