@@ -1,5 +1,13 @@
 function ForecastSkeleton() {
-  const skeletonItems = ['day-1', 'day-2', 'day-3', 'day-4', 'day-5', 'day-6', 'day-7'];
+  const skeletonItems = [
+    "day-1",
+    "day-2",
+    "day-3",
+    "day-4",
+    "day-5",
+    "day-6",
+    "day-7",
+  ];
 
   return (
     <section className="bg-white rounded-4xl shadow-sm ring-1 ring-slate-200/60 overflow-hidden">
@@ -9,7 +17,10 @@ function ForecastSkeleton() {
       <div className="divide-y divide-slate-100 px-4 md:px-8 pb-6">
         <ul className="space-y-0">
           {skeletonItems.map((itemKey) => (
-            <li key={itemKey} className="flex items-center justify-between py-5 px-4">
+            <li
+              key={itemKey}
+              className="flex items-center justify-between py-5 px-4"
+            >
               <div className="flex flex-col gap-1 w-28">
                 <div className="h-7 w-16 shimmer-base animate-shimmer rounded-lg"></div>
                 <div className="h-5 w-20 shimmer-secondary animate-shimmer rounded-lg"></div>
