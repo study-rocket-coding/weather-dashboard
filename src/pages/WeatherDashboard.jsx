@@ -11,7 +11,7 @@ import ForecastSkeleton from "../components/skeletons/ForecastSkeleton";
 function WeatherDashboard() {
   const [weather, setWeather] = useState(null);
   const [coords, setCoords] = useState({ lat: 22.61626, lon: 120.31333 });
-  const [locationName, setLocationName] = useState('Kaohsiung, Taiwan');
+  const [locationName, setLocationName] = useState("Kaohsiung, Taiwan");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,12 +20,14 @@ function WeatherDashboard() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m,apparent_temperature&timezone=auto`);
-        
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m,apparent_temperature&timezone=auto`,
+        );
+
         if (!response.ok) {
-          throw new Error('Failed to fetch weather data');
+          throw new Error("Failed to fetch weather data");
         }
-        
+
         const data = await response.json();
         setWeather(data);
       } catch (err) {
@@ -36,7 +38,7 @@ function WeatherDashboard() {
     }
 
     fetchWeather();
-  }, [coords])
+  }, [coords]);
 
   function handleSearch({ lat, lon, name, country }) {
     setCoords({ lat, lon });
@@ -47,18 +49,20 @@ function WeatherDashboard() {
   const isDay = weather?.current?.is_day;
   const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
 
-  const dailyForecasts = weather?.daily?.time.map((date, dayIndex) => {
-    const code = String(weather.daily.weather_code[dayIndex]);
-    const weatherCode = weatherCodes[code]?.day;  // 預報通常用 day
+  const dailyForecasts =
+    weather?.daily?.time.map((date, dayIndex) => {
+      const code = String(weather.daily.weather_code[dayIndex]);
+      const weatherCode = weatherCodes[code]?.day; // 預報通常用 day
 
-    return {
-      date,
-      weatherCode,
-      maxTemp: weather.daily.temperature_2m_max[dayIndex],
-      minTemp: weather.daily.temperature_2m_min[dayIndex],
-      precipitationProbability: weather.daily.precipitation_probability_max[dayIndex],
-    }
-  }) || [];
+      return {
+        date,
+        weatherCode,
+        maxTemp: weather.daily.temperature_2m_max[dayIndex],
+        minTemp: weather.daily.temperature_2m_min[dayIndex],
+        precipitationProbability:
+          weather.daily.precipitation_probability_max[dayIndex],
+      };
+    }) || [];
 
   return (
     <div className="min-h-screen pt-10 pb-6 px-4 sm:px-6 lg:px-8">
@@ -74,9 +78,9 @@ function WeatherDashboard() {
           </div>
 
           {error ? (
-            <ErrorMessage 
-              message={error} 
-              onRetry={() => setCoords({...coords})} 
+            <ErrorMessage
+              message={error}
+              onRetry={() => setCoords({ ...coords })}
             />
           ) : isLoading ? (
             <div className="grid grid-cols-1 gap-10">
@@ -90,10 +94,8 @@ function WeatherDashboard() {
                 weather={weather}
                 weatherCode={currentWeatherCode}
               />
-              
-              <Forecast
-                forecasts={dailyForecasts}
-              />
+
+              <Forecast forecasts={dailyForecasts} />
             </div>
           )}
         </main>
@@ -101,7 +103,7 @@ function WeatherDashboard() {
         <Footer />
       </div>
     </div>
-  )
+  );
 }
 
 export default WeatherDashboard;

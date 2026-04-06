@@ -1,0 +1,8 @@
+dist
+node_modules
+coverage
+public
+.gitignore
+package-lock.json
+package.json
+*.md
