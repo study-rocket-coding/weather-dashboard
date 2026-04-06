@@ -1,12 +1,12 @@
-import './App.css'
-import WeatherDashboard from './pages/WeatherDashboard';
+import "./App.css";
+import WeatherDashboard from "./pages/WeatherDashboard";
 
 function App() {
   return (
     <>
       <WeatherDashboard />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

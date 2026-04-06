@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+}
+
+@theme {
+  --animate-shimmer: shimmer 1.2s infinite ease-in-out;
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+.shimmer-base {
+  background: linear-gradient(
+    90deg,
+    rgba(226, 232, 240, 1) 35%,
+    rgba(241, 245, 249, 1) 50%,
+    rgba(226, 232, 240, 1) 65%
+  );
+  background-size: 200% 100%;
+}
+
+.shimmer-secondary {
+  background: linear-gradient(
+    90deg,
+    rgba(226, 232, 240, 0.7) 35%,
+    rgba(241, 245, 249, 0.7) 50%,
+    rgba(226, 232, 240, 0.7) 65%
+  );
+  background-size: 200% 100%;
+}

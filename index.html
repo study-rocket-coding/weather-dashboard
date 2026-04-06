@@ -3,10 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="theme-color" content="#f8fafc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>weather-dashboard</title>
+    
+    <!-- Preconnect to API for faster initial load -->
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+
+    <title>Weather Dashboard</title>
+    <meta name="description" content="A weather dashboard that provides real-time weather information and 7-day forecasts for cities worldwide." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Weather Dashboard" />
+    <meta property="og:description" content="A weather dashboard that provides real-time weather information and 7-day forecasts for cities worldwide." />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Weather Dashboard" />
+    <meta property="twitter:description" content="A weather dashboard that provides real-time weather information and 7-day forecasts for cities worldwide." />
+    <meta property="twitter:image" content="/favicon.svg" />
   </head>
   <body>
+    <noscript>You need to enable JavaScript to run this website.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

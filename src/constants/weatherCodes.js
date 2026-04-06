@@ -1,7 +1,7 @@
 import { weatherIcons } from "./imagePaths";
 
 export const weatherCodes = {
-  "0": {
+  0: {
     day: {
       description: "Sunny",
       image: weatherIcons["clear-day"].src,
@@ -11,7 +11,7 @@ export const weatherCodes = {
       image: weatherIcons["clear-night"].src,
     },
   },
-  "1": {
+  1: {
     day: {
       description: "Mainly Sunny",
       image: weatherIcons["clear-day"].src,
@@ -21,7 +21,7 @@ export const weatherCodes = {
       image: weatherIcons["clear-night"].src,
     },
   },
-  "2": {
+  2: {
     day: {
       description: "Partly Cloudy",
       image: weatherIcons["partly-cloudy-day"].src,
@@ -31,7 +31,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night"].src,
     },
   },
-  "3": {
+  3: {
     day: {
       description: "Cloudy",
       image: weatherIcons["overcast-day"].src,
@@ -41,7 +41,7 @@ export const weatherCodes = {
       image: weatherIcons["overcast-night"].src,
     },
   },
-  "45": {
+  45: {
     day: {
       description: "Foggy",
       image: weatherIcons["fog-day"].src,
@@ -51,7 +51,7 @@ export const weatherCodes = {
       image: weatherIcons["fog-night"].src,
     },
   },
-  "48": {
+  48: {
     day: {
       description: "Rime Fog",
       image: weatherIcons["fog-day"].src,
@@ -61,7 +61,7 @@ export const weatherCodes = {
       image: weatherIcons["fog-night"].src,
     },
   },
-  "51": {
+  51: {
     day: {
       description: "Light Drizzle",
       image: weatherIcons["partly-cloudy-day-drizzle"].src,
@@ -71,7 +71,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-drizzle"].src,
     },
   },
-  "53": {
+  53: {
     day: {
       description: "Drizzle",
       image: weatherIcons["drizzle"].src,
@@ -81,7 +81,7 @@ export const weatherCodes = {
       image: weatherIcons["drizzle"].src,
     },
   },
-  "55": {
+  55: {
     day: {
       description: "Heavy Drizzle",
       image: weatherIcons["drizzle"].src,
@@ -91,7 +91,7 @@ export const weatherCodes = {
       image: weatherIcons["drizzle"].src,
     },
   },
-  "56": {
+  56: {
     day: {
       description: "Light Freezing Drizzle",
       image: weatherIcons["partly-cloudy-day-sleet"].src,
@@ -101,7 +101,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-sleet"].src,
     },
   },
-  "57": {
+  57: {
     day: {
       description: "Freezing Drizzle",
       image: weatherIcons["sleet"].src,
@@ -111,7 +111,7 @@ export const weatherCodes = {
       image: weatherIcons["sleet"].src,
     },
   },
-  "61": {
+  61: {
     day: {
       description: "Light Rain",
       image: weatherIcons["partly-cloudy-day-rain"].src,
@@ -121,7 +121,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-rain"].src,
     },
   },
-  "63": {
+  63: {
     day: {
       description: "Rain",
       image: weatherIcons["rain"].src,
@@ -131,7 +131,7 @@ export const weatherCodes = {
       image: weatherIcons["rain"].src,
     },
   },
-  "65": {
+  65: {
     day: {
       description: "Heavy Rain",
       image: weatherIcons["rain"].src,
@@ -141,7 +141,7 @@ export const weatherCodes = {
       image: weatherIcons["rain"].src,
     },
   },
-  "66": {
+  66: {
     day: {
       description: "Light Freezing Rain",
       image: weatherIcons["sleet"].src,
@@ -151,7 +151,7 @@ export const weatherCodes = {
       image: weatherIcons["sleet"].src,
     },
   },
-  "67": {
+  67: {
     day: {
       description: "Freezing Rain",
       image: weatherIcons["sleet"].src,
@@ -161,7 +161,7 @@ export const weatherCodes = {
       image: weatherIcons["sleet"].src,
     },
   },
-  "71": {
+  71: {
     day: {
       description: "Light Snow",
       image: weatherIcons["partly-cloudy-day-snow"].src,
@@ -171,7 +171,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-snow"].src,
     },
   },
-  "73": {
+  73: {
     day: {
       description: "Snow",
       image: weatherIcons["snow"].src,
@@ -181,7 +181,7 @@ export const weatherCodes = {
       image: weatherIcons["snow"].src,
     },
   },
-  "75": {
+  75: {
     day: {
       description: "Heavy Snow",
       image: weatherIcons["snow"].src,
@@ -191,7 +191,7 @@ export const weatherCodes = {
       image: weatherIcons["snow"].src,
     },
   },
-  "77": {
+  77: {
     day: {
       description: "Snow Grains",
       image: weatherIcons["hail"].src,
@@ -201,7 +201,7 @@ export const weatherCodes = {
       image: weatherIcons["hail"].src,
     },
   },
-  "80": {
+  80: {
     day: {
       description: "Light Showers",
       image: weatherIcons["partly-cloudy-day-rain"].src,
@@ -211,7 +211,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-rain"].src,
     },
   },
-  "81": {
+  81: {
     day: {
       description: "Showers",
       image: weatherIcons["rain"].src,
@@ -221,7 +221,7 @@ export const weatherCodes = {
       image: weatherIcons["rain"].src,
     },
   },
-  "82": {
+  82: {
     day: {
       description: "Heavy Showers",
       image: weatherIcons["rain"].src,
@@ -231,7 +231,7 @@ export const weatherCodes = {
       image: weatherIcons["rain"].src,
     },
   },
-  "85": {
+  85: {
     day: {
       description: "Light Snow Showers",
       image: weatherIcons["partly-cloudy-day-snow"].src,
@@ -241,7 +241,7 @@ export const weatherCodes = {
       image: weatherIcons["partly-cloudy-night-snow"].src,
     },
   },
-  "86": {
+  86: {
     day: {
       description: "Snow Showers",
       image: weatherIcons["snow"].src,
@@ -251,7 +251,7 @@ export const weatherCodes = {
       image: weatherIcons["snow"].src,
     },
   },
-  "95": {
+  95: {
     day: {
       description: "Thunderstorm",
       image: weatherIcons["thunderstorms-day"].src,
@@ -261,7 +261,7 @@ export const weatherCodes = {
       image: weatherIcons["thunderstorms-night"].src,
     },
   },
-  "96": {
+  96: {
     day: {
       description: "Light Thunderstorms With Hail",
       image: weatherIcons["thunderstorms-day-rain"].src,
@@ -271,7 +271,7 @@ export const weatherCodes = {
       image: weatherIcons["thunderstorms-night-rain"].src,
     },
   },
-  "99": {
+  99: {
     day: {
       description: "Thunderstorm With Hail",
       image: weatherIcons["thunderstorms-rain"].src,
