@@ -39,7 +39,7 @@ function CurrentWeather({ weather, weatherCode }) {
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-1">
               <dt className="text-base font-bold text-slate-400">Wind Speed</dt>
               <dd className="text-2xl font-bold text-slate-800 tabular-nums">
-                {weather.current.wind_speed_10m} <small className="text-base font-normal text-slate-500">km/h</small>
+                {weather.current.wind_speed_10m} km/h
               </dd>
             </div>
           </dl>
