@@ -28,8 +28,8 @@ export default defineConfig([
     },
     rules: {
       // 如果是 JS 檔案，TS 的規則通常會自動跳過或是只做基本檢查
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^_' }],
     },
   },
   // 額外加上這一段：專門給 JS 檔案的「放行」設定

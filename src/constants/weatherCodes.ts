@@ -1,6 +1,7 @@
-import { weatherIcons } from "./imagePaths";
+import { weatherIcons } from "@/constants/imagePaths";
+import type { WeatherCodes } from "@/types/weather";
 
-export const weatherCodes = {
+export const weatherCodes: WeatherCodes = {
   0: {
     day: {
       description: "Sunny",

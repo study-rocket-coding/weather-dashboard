@@ -1,6 +1,11 @@
-import { weatherIcons } from "../constants/imagePaths";
+import { weatherIcons } from "@/constants/imagePaths";
+import type { DailyForecast } from "@/types/weather";
 
-function Forecast({ forecasts }) {
+interface ForecastProps {
+  forecasts: DailyForecast[];
+}
+
+function Forecast({ forecasts }: ForecastProps) {
   // 若無預報資料則不渲染
   if (!forecasts?.length) return null;
 
@@ -13,10 +18,6 @@ function Forecast({ forecasts }) {
       </div>
 
       <div className="divide-y divide-slate-100 px-4 md:px-8 pb-6">
-        {/* 
-          使用 <ul> (Unordered List) 與 <li> (List Item) 建立語意化列表。
-          優點：符合無障礙標準，螢幕閱讀器能告知使用者這是一組列表及項目的總數。
-        */}
         <ul className="space-y-0">
           {forecasts.map((day) => {
             // 使用 Date 物件精確處理日期與星期
@@ -35,12 +36,6 @@ function Forecast({ forecasts }) {
                 key={day.date}
                 className="flex items-center justify-between py-5 px-4 group hover:bg-slate-50/80 transition-colors rounded-2xl"
               >
-                {/* 日期與星期區塊 */}
-                {/* 
-                  使用 <time> 標籤標註日期。
-                  - dateTime 屬性提供機器可讀格式 (YYYY-MM-DD)
-                  - 內部文字提供人類閱讀格式
-                */}
                 <div className="flex flex-col gap-1 w-28">
                   <time
                     dateTime={day.date}
@@ -52,7 +47,6 @@ function Forecast({ forecasts }) {
                     {weekday}
                   </span>
                 </div>
-                {/* 天氣圖示與描述，大螢幕顯示文字描述 */}
                 <div className="flex items-center gap-4 flex-1 justify-center md:justify-start">
                   <img
                     src={day.weatherCode?.image}
@@ -68,7 +62,6 @@ function Forecast({ forecasts }) {
                   </span>
                 </div>
 
-                {/* 溫度區塊，375px 以下隱藏以維持排版整潔 */}
                 <div className="hidden min-[376px]:flex items-center gap-3 w-28 justify-end tabular-nums">
                   <span className="text-xl font-black text-slate-900">
                     {Math.round(day.maxTemp)}°
@@ -79,7 +72,6 @@ function Forecast({ forecasts }) {
                   </span>
                 </div>
 
-                {/* 降雨機率，576px 以下隱藏 */}
                 <div className="hidden min-[576px]:flex items-center gap-1 min-w-24 justify-end">
                   <img
                     src={weatherIcons["umbrella"].src}

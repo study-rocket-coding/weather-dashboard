@@ -1,4 +1,9 @@
-function ErrorMessage({ message, onRetry }) {
+interface ErrorMessageProps {
+  message: string;
+  onRetry?: () => void;
+}
+
+function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
   return (
     <div className="bg-red-50 border border-red-100 p-10 rounded-4xl text-center space-y-4 animate-in fade-in zoom-in duration-300">
       <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
