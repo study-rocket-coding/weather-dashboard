@@ -1,6 +1,11 @@
-import CitySearch from "../components/CitySearch";
+import CitySearch from "@/components/CitySearch";
+import type { SearchResult } from "@/types/weather";
 
-function Header({ onSearch }) {
+interface HeaderProps {
+  onSearch: (_result: SearchResult) => void;
+}
+
+function Header({ onSearch }: HeaderProps) {
   return (
     <header className="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
       <div className="flex items-center gap-3">
