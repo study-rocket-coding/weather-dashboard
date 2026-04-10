@@ -1,8 +1,22 @@
 import { useState, useEffect } from "react";
+import type { SearchResult } from "@/types/weather";
 
-function CitySearch({ onSearch }) {
+interface CitySearchResult {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  admin1?: string;
+}
+
+interface CitySearchProps {
+  onSearch: (_result: SearchResult) => void;
+}
+
+function CitySearch({ onSearch }: CitySearchProps) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<CitySearchResult[]>([]);
   const [error, setError] = useState(""); // 存放錯誤訊息
   const [showHint, setShowHint] = useState(false); // 控制提示顯示
 
@@ -15,28 +29,33 @@ function CitySearch({ onSearch }) {
         return;
       }
 
-      const res = await fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5&language=en`,
-      );
-      const data = await res.json();
+      try {
+        const res = await fetch(
+          `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5&language=en`,
+        );
+        const data = await res.json();
 
-      // Geocoding API 找不到城市時，results 欄位不存在
-      if (!data.results) {
-        setResults([]);
-        setError("City not found"); // 顯示錯誤訊息
-        return;
+        // Geocoding API 找不到城市時，results 欄位不存在
+        if (!data.results) {
+          setResults([]);
+          setError("City not found"); // 顯示錯誤訊息
+          return;
+        }
+
+        // 有結果時，清空錯誤訊息並更新結果
+        setError("");
+        setResults(data.results);
+      } catch (err) {
+        console.error("Geocoding fetch error:", err);
+        setError("Failed to fetch cities");
       }
-
-      // 有結果時，清空錯誤訊息並更新結果
-      setError("");
-      setResults(data.results);
     }, 300); // 停止輸入 300ms 後才打 API，避免每打一個字就打一次
 
     // cleanup：每次 query 改變時取消上一個還沒執行的 timer
     return () => clearTimeout(timer);
   }, [query]);
 
-  function handleSelect(result) {
+  function handleSelect(result: CitySearchResult) {
     // 把選到的城市資訊往上傳給 WeatherDashboard
     onSearch({
       lat: result.latitude,

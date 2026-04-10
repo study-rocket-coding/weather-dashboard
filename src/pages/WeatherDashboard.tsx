@@ -1,19 +1,25 @@
+// Constants 與 Hooks
 import { useState, useEffect } from "react";
-import { weatherCodes } from "../constants/weatherCodes";
-import Header from "../components/Header";
-import CurrentWeather from "../components/CurrentWeather";
-import Forecast from "../components/Forecast";
-import Footer from "../components/Footer";
-import ErrorMessage from "../components/ErrorMessage";
-import CurrentWeatherSkeleton from "../components/skeletons/CurrentWeatherSkeleton";
-import ForecastSkeleton from "../components/skeletons/ForecastSkeleton";
+import { weatherCodes } from "@/constants/weatherCodes";
+import type { WeatherData, Coords, SearchResult, DailyForecast } from "@/types/weather";
+
+// UI 組件
+import Header from "@/components/Header";
+import CurrentWeather from "@/components/CurrentWeather";
+import Forecast from "@/components/Forecast";
+import Footer from "@/components/Footer";
+import ErrorMessage from "@/components/ErrorMessage";
+
+// Skeletons
+import CurrentWeatherSkeleton from "@/components/skeletons/CurrentWeatherSkeleton";
+import ForecastSkeleton from "@/components/skeletons/ForecastSkeleton";
 
 function WeatherDashboard() {
-  const [weather, setWeather] = useState(null);
-  const [coords, setCoords] = useState({ lat: 22.61626, lon: 120.31333 });
-  const [locationName, setLocationName] = useState("Kaohsiung, Taiwan");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [coords, setCoords] = useState<Coords>({ lat: 22.61626, lon: 120.31333 });
+  const [locationName, setLocationName] = useState<string>("Kaohsiung, Taiwan");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchWeather() {
@@ -28,10 +34,14 @@ function WeatherDashboard() {
           throw new Error("Failed to fetch weather data");
         }
 
-        const data = await response.json();
+        const data: WeatherData = await response.json();
         setWeather(data);
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -40,23 +50,23 @@ function WeatherDashboard() {
     fetchWeather();
   }, [coords]);
 
-  function handleSearch({ lat, lon, name, country }) {
+  function handleSearch({ lat, lon, name, country }: SearchResult) {
     setCoords({ lat, lon });
     setLocationName(`${name}, ${country}`);
   }
 
   const code = String(weather?.current?.weather_code);
-  const isDay = weather?.current?.is_day;
+  const isDay = weather?.current?.is_day === 1;
   const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
 
-  const dailyForecasts =
+  const dailyForecasts: DailyForecast[] =
     weather?.daily?.time.map((date, dayIndex) => {
       const code = String(weather.daily.weather_code[dayIndex]);
       const weatherCode = weatherCodes[code]?.day; // 預報通常用 day
 
       return {
         date,
-        weatherCode,
+        weatherCode: weatherCode!, // 我們假設 weatherCodes 裡一定有對應的資料，或者可以在這裡做 fallback
         maxTemp: weather.daily.temperature_2m_max[dayIndex],
         minTemp: weather.daily.temperature_2m_min[dayIndex],
         precipitationProbability:
@@ -88,15 +98,18 @@ function WeatherDashboard() {
               <ForecastSkeleton />
             </div>
           ) : (
-            /* 正常資料顯示區塊 */
-            <div className="grid grid-cols-1 gap-10">
-              <CurrentWeather
-                weather={weather}
-                weatherCode={currentWeatherCode}
-              />
+            /* 正常資料顯示區塊：確保 weather 與 currentWeatherCode 都有值才渲染 */
+            weather &&
+            currentWeatherCode && (
+              <div className="grid grid-cols-1 gap-10">
+                <CurrentWeather
+                  weather={weather}
+                  weatherCode={currentWeatherCode}
+                />
 
-              <Forecast forecasts={dailyForecasts} />
-            </div>
+                <Forecast forecasts={dailyForecasts} />
+              </div>
+            )
           )}
         </main>
 

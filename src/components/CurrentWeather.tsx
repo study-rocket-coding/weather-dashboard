@@ -1,4 +1,11 @@
-function CurrentWeather({ weather, weatherCode }) {
+import type { WeatherData, WeatherIcon } from "@/types/weather";
+
+interface CurrentWeatherProps {
+  weather: WeatherData;
+  weatherCode: WeatherIcon;
+}
+
+function CurrentWeather({ weather, weatherCode }: CurrentWeatherProps) {
   // 若無天氣資料則不渲染
   if (!weather) return null;
 
@@ -26,16 +33,6 @@ function CurrentWeather({ weather, weatherCode }) {
             </p>
           </div>
 
-          {/* 濕度與風速，425px 以下改為垂直堆疊以維持易讀性 */}
-          {/* 
-            使用 <dl> (Description List) 建立語意化的數據列表。
-            - <dt> (Description Term) 定義項目名稱（如：Humidity）
-            - <dd> (Description Details) 定義對應的數值
-            優點：
-            1. 語意化結構：適合描述屬性與數值的關係（key-value）
-            2. 無障礙支援：螢幕閱讀器會將 <dt> 與 <dd> 視為一組關聯資料
-            3. 結構清晰：有助於機器與開發者理解內容語意
-          */}
           <dl className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
             <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-1">
               <dt className="text-base font-bold text-slate-400">Humidity</dt>
