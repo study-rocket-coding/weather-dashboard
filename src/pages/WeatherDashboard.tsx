@@ -1,7 +1,13 @@
 // Constants 與 Hooks
 import { useState, useEffect } from "react";
 import { weatherCodes } from "@/constants/weatherCodes";
-import type { WeatherData, Coords, SearchResult, DailyForecast } from "@/types/weather";
+import { defaultLocation } from "@/constants/defaultLocation";
+import type {
+  WeatherData,
+  Coords,
+  SearchResult,
+  DailyForecast,
+} from "@/types/weather";
 
 // UI 組件
 import Header from "@/components/Header";
@@ -16,8 +22,13 @@ import ForecastSkeleton from "@/components/skeletons/ForecastSkeleton";
 
 function WeatherDashboard() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [coords, setCoords] = useState<Coords>({ lat: 22.61626, lon: 120.31333 });
-  const [locationName, setLocationName] = useState<string>("Kaohsiung, Taiwan");
+  const [coords, setCoords] = useState<Coords>({
+    lat: defaultLocation.lat,
+    lon: defaultLocation.lon,
+  });
+  const [locationName, setLocationName] = useState<string>(
+    `${defaultLocation.name}, ${defaultLocation.country}`,
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
