@@ -29,12 +29,12 @@ function WeatherDashboard() {
   const [locationName, setLocationName] = useState<string>(
     `${defaultLocation.name}, ${defaultLocation.country}`,
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [status, setStatus] = useState<"loading" | "error" | "success">("loading");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchWeather() {
-      setIsLoading(true);
+      setStatus("loading");
       setError(null);
       try {
         const response = await fetch(
@@ -47,14 +47,10 @@ function WeatherDashboard() {
 
         const data: WeatherData = await response.json();
         setWeather(data);
+        setStatus("success");
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setIsLoading(false);
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+        setStatus("error");
       }
     }
 
@@ -66,24 +62,58 @@ function WeatherDashboard() {
     setLocationName(`${name}, ${country}`);
   }
 
-  const code = String(weather?.current?.weather_code);
-  const isDay = weather?.current?.is_day === 1;
-  const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
+  // 渲染內容的邏輯抽離
+  const renderContent = () => {
+    if (status === "error") {
+      return (
+        <ErrorMessage
+          message={error || "An unknown error occurred"}
+          onRetry={() => setCoords({ ...coords })}
+        />
+      );
+    }
 
-  const dailyForecasts: DailyForecast[] =
-    weather?.daily?.time.map((date, dayIndex) => {
-      const code = String(weather.daily.weather_code[dayIndex]);
-      const weatherCode = weatherCodes[code]?.day; // 預報通常用 day
+    if (status === "loading") {
+      return (
+        <div className="grid grid-cols-1 gap-10">
+          <CurrentWeatherSkeleton />
+          <ForecastSkeleton />
+        </div>
+      );
+    }
 
-      return {
-        date,
-        weatherCode: weatherCode!, // 我們假設 weatherCodes 裡一定有對應的資料，或者可以在這裡做 fallback
-        maxTemp: weather.daily.temperature_2m_max[dayIndex],
-        minTemp: weather.daily.temperature_2m_min[dayIndex],
-        precipitationProbability:
-          weather.daily.precipitation_probability_max[dayIndex],
-      };
-    }) || [];
+    if (status === "success" && weather) {
+      const code = String(weather.current?.weather_code);
+      const isDay = weather.current?.is_day === 1;
+      const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
+
+      const dailyForecasts: DailyForecast[] =
+        weather.daily?.time.map((date, dayIndex) => {
+          const code = String(weather.daily.weather_code[dayIndex]);
+          const weatherCode = weatherCodes[code]?.day;
+
+          return {
+            date,
+            weatherCode: weatherCode!,
+            maxTemp: weather.daily.temperature_2m_max[dayIndex],
+            minTemp: weather.daily.temperature_2m_min[dayIndex],
+            precipitationProbability:
+              weather.daily.precipitation_probability_max[dayIndex],
+          };
+        }) || [];
+
+      if (!currentWeatherCode) return null;
+
+      return (
+        <div className="grid grid-cols-1 gap-10">
+          <CurrentWeather weather={weather} weatherCode={currentWeatherCode} />
+          <Forecast forecasts={dailyForecasts} />
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <div className="min-h-screen pt-10 pb-6 px-4 sm:px-6 lg:px-8">
@@ -98,30 +128,7 @@ function WeatherDashboard() {
             <div className="w-24 h-1.5 bg-sky-500 mx-auto rounded-full"></div>
           </div>
 
-          {error ? (
-            <ErrorMessage
-              message={error}
-              onRetry={() => setCoords({ ...coords })}
-            />
-          ) : isLoading ? (
-            <div className="grid grid-cols-1 gap-10">
-              <CurrentWeatherSkeleton />
-              <ForecastSkeleton />
-            </div>
-          ) : (
-            /* 正常資料顯示區塊：確保 weather 與 currentWeatherCode 都有值才渲染 */
-            weather &&
-            currentWeatherCode && (
-              <div className="grid grid-cols-1 gap-10">
-                <CurrentWeather
-                  weather={weather}
-                  weatherCode={currentWeatherCode}
-                />
-
-                <Forecast forecasts={dailyForecasts} />
-              </div>
-            )
-          )}
+          {renderContent()}
         </main>
 
         <Footer />
