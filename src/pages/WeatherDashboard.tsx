@@ -1,13 +1,7 @@
-// Constants 與 Hooks
-import { useState, useEffect } from "react";
+// 邏輯、型別與常數
+import { useWeather } from "@/hooks/useWeather";
 import { weatherCodes } from "@/constants/weatherCodes";
-import { defaultLocation } from "@/constants/defaultLocation";
-import type {
-  WeatherData,
-  Coords,
-  SearchResult,
-  DailyForecast,
-} from "@/types/weather";
+import type { DailyForecast } from "@/types/weather";
 
 // UI 組件
 import Header from "@/components/Header";
@@ -21,54 +15,17 @@ import CurrentWeatherSkeleton from "@/components/skeletons/CurrentWeatherSkeleto
 import ForecastSkeleton from "@/components/skeletons/ForecastSkeleton";
 
 function WeatherDashboard() {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [coords, setCoords] = useState<Coords>({
-    lat: defaultLocation.lat,
-    lon: defaultLocation.lon,
-  });
-  const [locationName, setLocationName] = useState<string>(
-    `${defaultLocation.name}, ${defaultLocation.country}`,
-  );
-  const [status, setStatus] = useState<"loading" | "error" | "success">("loading");
-  const [error, setError] = useState<string | null>(null);
+  // 從自定義 Hook 取得天氣資料與狀態管理
+  const { weather, locationName, status, error, handleSearch, retry } =
+    useWeather();
 
-  useEffect(() => {
-    async function fetchWeather() {
-      setStatus("loading");
-      setError(null);
-      try {
-        const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m,apparent_temperature&timezone=auto`,
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch weather data");
-        }
-
-        const data: WeatherData = await response.json();
-        setWeather(data);
-        setStatus("success");
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred");
-        setStatus("error");
-      }
-    }
-
-    fetchWeather();
-  }, [coords]);
-
-  function handleSearch({ lat, lon, name, country }: SearchResult) {
-    setCoords({ lat, lon });
-    setLocationName(`${name}, ${country}`);
-  }
-
-  // 渲染內容的邏輯抽離
+  // 根據當前狀態 (loading, error, success) 渲染對應的內容
   const renderContent = () => {
     if (status === "error") {
       return (
         <ErrorMessage
           message={error || "An unknown error occurred"}
-          onRetry={() => setCoords({ ...coords })}
+          onRetry={retry}
         />
       );
     }
@@ -87,6 +44,7 @@ function WeatherDashboard() {
       const isDay = weather.current?.is_day === 1;
       const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
 
+      // 將原始資料轉換為預報組件所需的格式
       const dailyForecasts: DailyForecast[] =
         weather.daily?.time.map((date, dayIndex) => {
           const code = String(weather.daily.weather_code[dayIndex]);
