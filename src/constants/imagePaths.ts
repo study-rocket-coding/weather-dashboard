@@ -25,6 +25,7 @@ import thunderstormsRain from "@/assets/images/weather_icons/thunderstorms-rain.
 import thunderstormsDayRain from "@/assets/images/weather_icons/thunderstorms-day-rain.svg";
 import thunderstormsNightRain from "@/assets/images/weather_icons/thunderstorms-night-rain.svg";
 import umbrella from "@/assets/images/weather_icons/umbrella.svg";
+import notAvailable from "@/assets/images/weather_icons/not-available.svg";
 
 export interface WeatherIconAsset {
   alt: string;
@@ -139,5 +140,9 @@ export const weatherIcons: Record<string, WeatherIconAsset> = {
   umbrella: {
     alt: "precipitation probability",
     src: umbrella,
+  },
+  "not-available": {
+    alt: "not available",
+    src: notAvailable,
   },
 };

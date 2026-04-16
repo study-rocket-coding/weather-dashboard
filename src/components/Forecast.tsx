@@ -1,5 +1,6 @@
 import { weatherIcons } from "@/constants/imagePaths";
 import type { DailyForecast } from "@/types/weather";
+import { getWeekday, formatShortDate } from "@/utils/date";
 
 interface ForecastProps {
   forecasts: DailyForecast[];
@@ -7,7 +8,7 @@ interface ForecastProps {
 
 function Forecast({ forecasts }: ForecastProps) {
   // 若無預報資料則不渲染
-  if (!forecasts?.length) return null;
+  if (!forecasts.length) return null;
 
   return (
     <section className="bg-white rounded-4xl shadow-sm ring-1 ring-slate-200/60 overflow-hidden">
@@ -20,17 +21,6 @@ function Forecast({ forecasts }: ForecastProps) {
       <div className="divide-y divide-slate-100 px-4 md:px-8 pb-6">
         <ul className="space-y-0">
           {forecasts.map((day) => {
-            // 使用 Date 物件精確處理日期與星期
-            const dateObj = new Date(day.date);
-            const weekday = dateObj.toLocaleDateString("en-US", {
-              weekday: "long",
-            });
-
-            // 格式化日期為 MM/DD 形式
-            const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-            const date = String(dateObj.getDate()).padStart(2, "0");
-            const dateLabel = `${month}/${date}`;
-
             return (
               <li
                 key={day.date}
@@ -41,24 +31,20 @@ function Forecast({ forecasts }: ForecastProps) {
                     dateTime={day.date}
                     className="text-xl font-black text-slate-900 leading-none tabular-nums"
                   >
-                    {dateLabel}
+                    {formatShortDate(day.date)}
                   </time>
                   <span className="text-base font-bold text-slate-400">
-                    {weekday}
+                    {getWeekday(day.date)}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 flex-1 justify-center md:justify-start">
                   <img
-                    src={day.weatherCode?.image}
-                    alt={day.weatherCode?.description}
-                    style={{
-                      transform: "translateZ(0)",
-                      backfaceVisibility: "hidden",
-                    }}
-                    className="w-20 h-20 md:w-24 md:h-24 drop-shadow-md bg-transparent will-change-transform block"
+                    src={day.weatherCode.image}
+                    alt={day.weatherCode.description}
+                    className="w-20 h-20 md:w-24 md:h-24 drop-shadow-md bg-transparent will-change-transform block translate-z-0 backface-hidden"
                   />
                   <span className="hidden lg:block text-slate-500 font-medium text-lg">
-                    {day.weatherCode?.description}
+                    {day.weatherCode.description}
                   </span>
                 </div>
 

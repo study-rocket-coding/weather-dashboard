@@ -43,9 +43,7 @@ export interface Coords {
   lon: number;
 }
 
-export interface SearchResult {
-  lat: number;
-  lon: number;
+export interface SearchResult extends Coords {
   name: string;
   country: string;
 }

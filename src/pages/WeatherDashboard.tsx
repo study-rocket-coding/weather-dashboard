@@ -1,7 +1,8 @@
-// Constants 與 Hooks
-import { useState, useEffect } from "react";
+// 邏輯、型別與常數
+import { useWeather } from "@/hooks/useWeather";
 import { weatherCodes } from "@/constants/weatherCodes";
-import type { WeatherData, Coords, SearchResult, DailyForecast } from "@/types/weather";
+import { weatherIcons } from "@/constants/imagePaths";
+import type { DailyForecast, WeatherIcon } from "@/types/weather";
 
 // UI 組件
 import Header from "@/components/Header";
@@ -14,65 +15,70 @@ import ErrorMessage from "@/components/ErrorMessage";
 import CurrentWeatherSkeleton from "@/components/skeletons/CurrentWeatherSkeleton";
 import ForecastSkeleton from "@/components/skeletons/ForecastSkeleton";
 
+// 當找不到對應天氣代碼時的回退資料 (Fallback)
+const unknownWeather: WeatherIcon = {
+  description: "N/A",
+  image: weatherIcons["not-available"].src,
+};
+
 function WeatherDashboard() {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [coords, setCoords] = useState<Coords>({ lat: 22.61626, lon: 120.31333 });
-  const [locationName, setLocationName] = useState<string>("Kaohsiung, Taiwan");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  // 從自定義 Hook 取得天氣資料與狀態管理
+  const { weather, locationName, status, error, handleSearch, retry } =
+    useWeather();
 
-  useEffect(() => {
-    async function fetchWeather() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m,apparent_temperature&timezone=auto`,
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch weather data");
-        }
-
-        const data: WeatherData = await response.json();
-        setWeather(data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setIsLoading(false);
-      }
+  // 根據當前狀態 (loading, error, success) 渲染對應的內容
+  const renderContent = () => {
+    if (status === "error") {
+      return (
+        <ErrorMessage
+          message={error || "An unknown error occurred"}
+          onRetry={retry}
+        />
+      );
     }
 
-    fetchWeather();
-  }, [coords]);
+    if (status === "loading") {
+      return (
+        <div className="grid grid-cols-1 gap-10">
+          <CurrentWeatherSkeleton />
+          <ForecastSkeleton />
+        </div>
+      );
+    }
 
-  function handleSearch({ lat, lon, name, country }: SearchResult) {
-    setCoords({ lat, lon });
-    setLocationName(`${name}, ${country}`);
-  }
+    if (status === "success" && weather) {
+      const code = String(weather.current.weather_code);
+      const isDay = weather.current.is_day === 1;
+      const currentWeatherCode =
+        weatherCodes[code]?.[isDay ? "day" : "night"] || unknownWeather;
 
-  const code = String(weather?.current?.weather_code);
-  const isDay = weather?.current?.is_day === 1;
-  const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
+      // 將原始資料轉換為預報組件所需的格式，若找不到天氣代碼則回退至 unknownWeather
+      const dailyForecasts: DailyForecast[] = weather.daily.time.map(
+        (date, dayIndex) => {
+          const code = String(weather.daily.weather_code[dayIndex]);
+          const weatherIcon = weatherCodes[code]?.day || unknownWeather;
 
-  const dailyForecasts: DailyForecast[] =
-    weather?.daily?.time.map((date, dayIndex) => {
-      const code = String(weather.daily.weather_code[dayIndex]);
-      const weatherCode = weatherCodes[code]?.day; // 預報通常用 day
+          return {
+            date,
+            weatherCode: weatherIcon,
+            maxTemp: weather.daily.temperature_2m_max[dayIndex],
+            minTemp: weather.daily.temperature_2m_min[dayIndex],
+            precipitationProbability:
+              weather.daily.precipitation_probability_max[dayIndex],
+          };
+        },
+      );
 
-      return {
-        date,
-        weatherCode: weatherCode!, // 我們假設 weatherCodes 裡一定有對應的資料，或者可以在這裡做 fallback
-        maxTemp: weather.daily.temperature_2m_max[dayIndex],
-        minTemp: weather.daily.temperature_2m_min[dayIndex],
-        precipitationProbability:
-          weather.daily.precipitation_probability_max[dayIndex],
-      };
-    }) || [];
+      return (
+        <div className="grid grid-cols-1 gap-10">
+          <CurrentWeather weather={weather} weatherCode={currentWeatherCode} />
+          <Forecast forecasts={dailyForecasts} />
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <div className="min-h-screen pt-10 pb-6 px-4 sm:px-6 lg:px-8">
@@ -87,30 +93,7 @@ function WeatherDashboard() {
             <div className="w-24 h-1.5 bg-sky-500 mx-auto rounded-full"></div>
           </div>
 
-          {error ? (
-            <ErrorMessage
-              message={error}
-              onRetry={() => setCoords({ ...coords })}
-            />
-          ) : isLoading ? (
-            <div className="grid grid-cols-1 gap-10">
-              <CurrentWeatherSkeleton />
-              <ForecastSkeleton />
-            </div>
-          ) : (
-            /* 正常資料顯示區塊：確保 weather 與 currentWeatherCode 都有值才渲染 */
-            weather &&
-            currentWeatherCode && (
-              <div className="grid grid-cols-1 gap-10">
-                <CurrentWeather
-                  weather={weather}
-                  weatherCode={currentWeatherCode}
-                />
-
-                <Forecast forecasts={dailyForecasts} />
-              </div>
-            )
-          )}
+          {renderContent()}
         </main>
 
         <Footer />
