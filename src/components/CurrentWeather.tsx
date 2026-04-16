@@ -55,13 +55,13 @@ function CurrentWeather({ weather, weatherCode }: CurrentWeatherProps) {
 
           {/* translate-z-0 backface-hidden：將圖示移至獨立 GPU 層，防止動畫影響周圍元素的渲染 */}
           <img
-            src={weatherCode?.image}
-            alt={weatherCode?.description}
+            src={weatherCode.image}
+            alt={weatherCode.description}
             className="w-48 md:w-64 aspect-square drop-shadow-xl animate-in fade-in duration-500 bg-transparent will-change-transform block translate-z-0 backface-hidden"
           />
 
           <p className="text-center mt-4 text-xl font-bold text-slate-700">
-            {weatherCode?.description}
+            {weatherCode.description}
           </p>
         </div>
       </div>

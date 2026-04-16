@@ -8,7 +8,7 @@ interface ForecastProps {
 
 function Forecast({ forecasts }: ForecastProps) {
   // 若無預報資料則不渲染
-  if (!forecasts?.length) return null;
+  if (!forecasts.length) return null;
 
   return (
     <section className="bg-white rounded-4xl shadow-sm ring-1 ring-slate-200/60 overflow-hidden">
@@ -39,12 +39,12 @@ function Forecast({ forecasts }: ForecastProps) {
                 </div>
                 <div className="flex items-center gap-4 flex-1 justify-center md:justify-start">
                   <img
-                    src={day.weatherCode?.image}
-                    alt={day.weatherCode?.description}
+                    src={day.weatherCode.image}
+                    alt={day.weatherCode.description}
                     className="w-20 h-20 md:w-24 md:h-24 drop-shadow-md bg-transparent will-change-transform block translate-z-0 backface-hidden"
                   />
                   <span className="hidden lg:block text-slate-500 font-medium text-lg">
-                    {day.weatherCode?.description}
+                    {day.weatherCode.description}
                   </span>
                 </div>
 

@@ -1,7 +1,8 @@
 // 邏輯、型別與常數
 import { useWeather } from "@/hooks/useWeather";
 import { weatherCodes } from "@/constants/weatherCodes";
-import type { DailyForecast } from "@/types/weather";
+import { weatherIcons } from "@/constants/imagePaths";
+import type { DailyForecast, WeatherIcon } from "@/types/weather";
 
 // UI 組件
 import Header from "@/components/Header";
@@ -13,6 +14,12 @@ import ErrorMessage from "@/components/ErrorMessage";
 // Skeletons
 import CurrentWeatherSkeleton from "@/components/skeletons/CurrentWeatherSkeleton";
 import ForecastSkeleton from "@/components/skeletons/ForecastSkeleton";
+
+// 當找不到對應天氣代碼時的回退資料 (Fallback)
+const unknownWeather: WeatherIcon = {
+  description: "N/A",
+  image: weatherIcons["not-available"].src,
+};
 
 function WeatherDashboard() {
   // 從自定義 Hook 取得天氣資料與狀態管理
@@ -40,27 +47,27 @@ function WeatherDashboard() {
     }
 
     if (status === "success" && weather) {
-      const code = String(weather.current?.weather_code);
-      const isDay = weather.current?.is_day === 1;
-      const currentWeatherCode = weatherCodes[code]?.[isDay ? "day" : "night"];
+      const code = String(weather.current.weather_code);
+      const isDay = weather.current.is_day === 1;
+      const currentWeatherCode =
+        weatherCodes[code]?.[isDay ? "day" : "night"] || unknownWeather;
 
-      // 將原始資料轉換為預報組件所需的格式
-      const dailyForecasts: DailyForecast[] =
-        weather.daily?.time.map((date, dayIndex) => {
+      // 將原始資料轉換為預報組件所需的格式，若找不到天氣代碼則回退至 unknownWeather
+      const dailyForecasts: DailyForecast[] = weather.daily.time.map(
+        (date, dayIndex) => {
           const code = String(weather.daily.weather_code[dayIndex]);
-          const weatherCode = weatherCodes[code]?.day;
+          const weatherIcon = weatherCodes[code]?.day || unknownWeather;
 
           return {
             date,
-            weatherCode: weatherCode!,
+            weatherCode: weatherIcon,
             maxTemp: weather.daily.temperature_2m_max[dayIndex],
             minTemp: weather.daily.temperature_2m_min[dayIndex],
             precipitationProbability:
               weather.daily.precipitation_probability_max[dayIndex],
           };
-        }) || [];
-
-      if (!currentWeatherCode) return null;
+        },
+      );
 
       return (
         <div className="grid grid-cols-1 gap-10">
