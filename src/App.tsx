@@ -1,4 +1,4 @@
-import WeatherDashboard from "@/pages/WeatherDashboard";
+import WeatherDashboard from "@/views/WeatherDashboard";
 
 function App() {
   return (
