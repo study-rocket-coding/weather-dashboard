@@ -1,4 +1,4 @@
-import CitySearch from "@/components/CitySearch";
+import CitySearch from "@/components/weather/CitySearch";
 import type { SearchResult } from "@/types/weather";
 
 interface HeaderProps {

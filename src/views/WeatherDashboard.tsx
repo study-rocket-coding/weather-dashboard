@@ -5,11 +5,11 @@ import { weatherIcons } from "@/constants/imagePaths";
 import type { DailyForecast, WeatherIcon } from "@/types/weather";
 
 // UI 組件
-import Header from "@/components/Header";
-import CurrentWeather from "@/components/CurrentWeather";
-import Forecast from "@/components/Forecast";
-import Footer from "@/components/Footer";
-import ErrorMessage from "@/components/ErrorMessage";
+import Header from "@/components/layout/Header";
+import CurrentWeather from "@/components/weather/CurrentWeather";
+import Forecast from "@/components/weather/Forecast";
+import Footer from "@/components/layout/Footer";
+import ErrorMessage from "@/components/common/ErrorMessage";
 
 // Skeletons
 import CurrentWeatherSkeleton from "@/components/skeletons/CurrentWeatherSkeleton";
