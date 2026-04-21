@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景色 -->
+  <rect width="1200" height="630" fill="#f8fafc"/>
+  
+  <!-- 裝飾性漸層或圖案 (選配，讓畫面不單調) -->
+  <circle cx="1100" cy="100" r="200" fill="#e0f2fe" fill-opacity="0.5"/>
+  <circle cx="100" cy="530" r="150" fill="#f0f9ff" fill-opacity="0.8"/>
+
+  <!-- 主體圖示 (從 favicon 放大並置中) -->
+  <g transform="translate(480, 120) scale(6)">
+    <rect width="40" height="40" rx="12" fill="#0ea5e9"/>
+    <g transform="translate(8, 8)">
+      <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" 
+            stroke="white" 
+            stroke-width="2.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- 樣式設定 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap');
+    text { font-family: 'Inter', sans-serif; }
+    text::selection { fill: #f0f9ff; background: #0ea5e9; }
+  </style>
+
+  <!-- 文字標題 -->
+  <text x="600" y="464" text-anchor="middle" font-size="64" font-weight="700" fill="#0f172a">Weather Dashboard</text>
+  <text x="600" y="515" text-anchor="middle" font-size="28" font-weight="400" fill="#94a3b8">Real-time weather information and 7-day forecasts</text>
+</svg>
