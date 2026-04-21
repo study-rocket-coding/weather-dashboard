@@ -1,9 +1,9 @@
-import WeatherDashboard from "@/views/WeatherDashboard";
+import Router from "@/router";
 
 function App() {
   return (
     <>
-      <WeatherDashboard />
+      <Router />
     </>
   );
 }
